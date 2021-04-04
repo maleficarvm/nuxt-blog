@@ -4,6 +4,7 @@
       <h2 class="title">
         Contact me!
       </h2>
+      <Message v-if="message" :message="message" />
       <form @submit.prevent="onSubmit" class="contact-form">
         <!-- name -->
         <AppInput v-model="user.name">Name:</AppInput>

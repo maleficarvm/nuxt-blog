@@ -1,18 +1,14 @@
 <template>
-  <div class="wrapper-content wrapper-content--fixed">
-    <post :post="post" />
-    <comments :comments="comments" />
-    <newComment />
-  </div>
+  <newPostForm :post="post" @submit="onSubmit" />
 </template>
 
 <script>
-import post from "@/components/blog/Post.vue";
-import newComment from "@/components/Comments/NewComments.vue";
-import comments from "@/components/Comments/Comments.vue";
-
+import newPostForm from "@/components/admin/NewPostForm.vue";
 export default {
-  components: { post, comments, newComment },
+  components: {
+    newPostForm
+  },
+  layout: "admin",
   data() {
     return {
       post: {
@@ -28,27 +24,12 @@ export default {
         { name: "John", text: "Lorem, ipsum dolor sit amet consectetur" }
       ]
     };
+  },
+  methods: {
+    onSubmit(post) {
+      console.log("Post Editing!");
+      console.log(post);
+    }
   }
 };
 </script>
-
-<style lang="scss">
-.post {
-  max-width: 900px;
-  margin: 0 auto;
-}
-.post-header {
-  text-align: center;
-  margin-bottom: 30px;
-  img {
-    margin-bottom: 16px;
-    max-width: 400px;
-  }
-  p {
-    color: #999;
-  }
-}
-.post-body {
-  text-align: center;
-}
-</style>

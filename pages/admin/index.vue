@@ -1,12 +1,12 @@
 <template>
-  <div class="wrapper-content wrapper-content--fixed">
-    <Intro title="My posts: " />
+  <div>
     <PostsList :posts="posts" />
   </div>
 </template>
 
 <script>
 export default {
+  layout: "admin",
   data() {
     return {
       posts: [
