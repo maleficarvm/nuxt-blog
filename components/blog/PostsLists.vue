@@ -2,7 +2,12 @@
   <section class="post-list">
     <div class="container">
       <div class="posts__wrapper">
-        <postPreview v-for="post in posts" :key="post.id" :post="post" />
+        <postPreview
+          v-for="post in posts"
+          :key="post.id"
+          :admin="admin"
+          :post="post"
+        />
       </div>
     </div>
   </section>
@@ -19,6 +24,10 @@ export default {
     posts: {
       type: Array,
       required: true
+    },
+    admin: {
+      type: Boolean,
+      default: false
     }
   }
 };
@@ -28,7 +37,7 @@ export default {
 .posts__wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 </style>

@@ -2,31 +2,35 @@
   <div class="wrapper-content wrapper-content--fixed">
     <post :post="post" />
     <comments :comments="comments" />
-    <newComment />
+    <newComment :postId="$route.params.id" />
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import post from "@/components/blog/Post.vue";
 import newComment from "@/components/Comments/NewComments.vue";
 import comments from "@/components/Comments/Comments.vue";
 
 export default {
-  components: { post, comments, newComment },
-  data() {
+  components: { post, comments, newComment, axios },
+  async asyncData(context) {
+    let [post, comment] = await Promise.all([
+      axios.get(
+        `https://blog-nuxt-aae5b-default-rtdb.firebaseio.com/posts/${context.params.id}.json `
+      ),
+      axios.get(
+        `https://blog-nuxt-aae5b-default-rtdb.firebaseio.com/comments .json `
+      )
+    ]);
+
+    let commentsArrayRes = Object.values(comments.data).filter(
+      comment => comment.postId === context.params.id && comment.publish
+    );
+
     return {
-      post: {
-        id: 1,
-        title: "1 post",
-        descr: "Lorem ipsum dolor sit amet consectetur",
-        content:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, deserunt. Repellendus mollitia aliquid nihil laudantium et officia! Autem eum accusantium pariatur non similique dignissimos quisquam odit amet, maiores atque ad?",
-        img: "https://lawnuk.com/wp-content/uploads/2016/08/sprogs-dogs.jpg"
-      },
-      comments: [
-        { name: "Alex", text: "Lorem, ipsum dolor sit amet consectetur" },
-        { name: "John", text: "Lorem, ipsum dolor sit amet consectetur" }
-      ]
+      post: post.data,
+      comments: commentsArrayRes
     };
   }
 };

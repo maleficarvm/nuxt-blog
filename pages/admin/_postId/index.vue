@@ -1,34 +1,34 @@
 <template>
-  <newPostForm :post="post" @submit="onSubmit" />
+  <newPostForm :postEdit="post" @submit="onSubmit" />
 </template>
 
 <script>
+import axios from "axios";
 import newPostForm from "@/components/admin/NewPostForm.vue";
 export default {
   components: {
-    newPostForm
+    newPostForm,
+    axios
   },
   layout: "admin",
-  data() {
-    return {
-      post: {
-        id: 1,
-        title: "1 post",
-        descr: "Lorem ipsum dolor sit amet consectetur",
-        content:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis, deserunt. Repellendus mollitia aliquid nihil laudantium et officia! Autem eum accusantium pariatur non similique dignissimos quisquam odit amet, maiores atque ad?",
-        img: "https://lawnuk.com/wp-content/uploads/2016/08/sprogs-dogs.jpg"
-      },
-      comments: [
-        { name: "Alex", text: "Lorem, ipsum dolor sit amet consectetur" },
-        { name: "John", text: "Lorem, ipsum dolor sit amet consectetur" }
-      ]
-    };
+  asyncData(context) {
+    return axios
+      .get(
+        `https://blog-nuxt-aae5b-default-rtdb.firebaseio.com/posts/${context.params.postId}.json`
+      )
+      .then(res => {
+        return {
+          post: { ...res.data, id: context.params.postId }
+        };
+      })
+      .catch(e => context.error(e));
   },
   methods: {
     onSubmit(post) {
       console.log("Post Editing!");
-      console.log(post);
+      this.$store.dispath("editPost", post).then(() => {
+        this.$router.push("/admin");
+      });
     }
   }
 };

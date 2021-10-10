@@ -17,14 +17,22 @@
 
 <script>
 export default {
+  props: {
+    postEdit: {
+      type: Object,
+      required: false
+    }
+  },
   data() {
     return {
-      post: {
-        title: "",
-        descr: "",
-        img: "",
-        content: ""
-      }
+      post: this.postEdit
+        ? { ...this.postEdit }
+        : {
+            title: "",
+            descr: "",
+            img: "",
+            content: ""
+          }
     };
   },
   methods: {

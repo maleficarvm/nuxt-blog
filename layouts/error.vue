@@ -1,9 +1,10 @@
 <template>
   <section class="not-found">
     <div class="container">
-      <div class="not-found__wrapper"></div>
-      <p class="title">Page Not Found</p>
-      <nuxt-link to="/"> Back to main page </nuxt-link>
+      <div class="not-found__wrapper">
+        <p class="title">Page Not Found</p>
+        <nuxt-link to="/"> Back to main page </nuxt-link>
+      </div>
     </div>
   </section>
 </template>
@@ -15,6 +16,6 @@
   justify-content: center;
   flex-direction: column;
   width: 100%;
-  height: 40vh;
+  height: 80vh;
 }
 </style>

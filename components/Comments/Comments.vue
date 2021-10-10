@@ -2,9 +2,10 @@
   <section v-if="comments" class="comments">
     <div class="container">
       <h2 class="title">Comments:</h2>
+      <p v-if="comments.length == 0">Comments: 0</p>
       <div class="comment" v-for="comment in comments" :key="comment.name">
         <p class="name">{{ comments.name }}</p>
-        <p class="name">{{ comments.text }}</p>
+        <p class="text">{{ comments.text }}</p>
       </div>
     </div>
   </section>
@@ -33,6 +34,7 @@ export default {
   text-align: center;
   background-color: #fff;
   .name {
+    margin-bottom: 12px;
     font-size: 24px;
     color: rgb(110, 25, 61);
   }

@@ -14,7 +14,7 @@
         <AppTextArea v-model="user.text">Text:</AppTextArea>
         <!-- buttons -->
         <div class="controls">
-          <AppButton class="btnWhite">Submit!</AppButton>
+          <AppButton class="btn btnWhite"> Submit! </AppButton>
         </div>
       </form>
     </div>
@@ -22,14 +22,10 @@
 </template>
 
 <script>
-import AppButton from "@/components/UI/Controls/Button.vue";
-import AppInput from "@/components/UI/Controls/Input.vue";
-import AppTextArea from "@/components/UI/Controls/TextArea.vue";
-
 export default {
-  components: { AppButton, AppInput, AppTextArea },
   data() {
     return {
+      message: null,
       user: {
         name: "",
         email: "",
@@ -39,7 +35,11 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.user);
+      this.message = "Submited!";
+      //Reset
+      this.user.name = "";
+      this.user.email = "";
+      this.user.text = "";
     }
   }
 };
