@@ -14,6 +14,42 @@ import comments from "@/components/Comments/Comments.vue";
 
 export default {
   components: { post, comments, newComment, axios },
+  head() {
+    let title = this.post.title,
+      descr = this.post.descr,
+      img = `site.com/${this.post.img}`,
+      type = "article";
+    return {
+      title: title,
+      meta: [
+        {
+          hid: "og:title",
+          name: "dg:title",
+          content: title
+        },
+        {
+          hid: "description",
+          name: "description",
+          content: descr
+        },
+        {
+          hid: "og:description",
+          name: "og:description",
+          content: descr
+        },
+        {
+          hid: "og:type",
+          name: "og:type",
+          content: type
+        },
+        {
+          hid: "og:img",
+          name: "og:img",
+          content: img
+        }
+      ]
+    };
+  },
   async asyncData(context) {
     let [post, comment] = await Promise.all([
       axios.get(

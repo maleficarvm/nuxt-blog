@@ -7,7 +7,7 @@
         <AppInput v-model="post.img"> Img Link: </AppInput>
         <AppTextArea v-model="post.content"> Content: </AppTextArea>
         <div class="controls">
-          <AppButton class="btnDanger" @click="cancel"> Cancel </AppButton>
+          <div class="btn btnDanger" @click="cancel">Cancel</div>
           <AppButton @click="onSubmit"> Save </AppButton>
         </div>
       </form>

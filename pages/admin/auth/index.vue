@@ -24,11 +24,20 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$store.dispatch("authUser", this.user).then(res => {
-        //reset
-        this.user.email = "";
-        this.user.password = "";
-      });
+      this.$store
+        .dispatch("authUser", this.user)
+        .then(res => {
+          //console.log(res)
+          //reset
+          this.router.push("/admin/");
+          //this.user.email = "";
+          //this.user.password = "";
+        })
+        .catch(e => {
+          console.log(e);
+          this.user.email = "";
+          this.user.password = "";
+        });
     }
   }
 };

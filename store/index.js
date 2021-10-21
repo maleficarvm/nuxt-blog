@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const state = () => ({
   postsLoaded: [],
+  token: null,
   commentsLoaded: []
 });
 
@@ -20,6 +21,12 @@ export const mutations = {
   },
   addComment(state, comment) {
     state.commentsLoaded.push(comment);
+  },
+  setToken(state, token) {
+    state.token = token;
+  },
+  destroyToken(state) {
+    state.token = null;
   }
 };
 
@@ -38,14 +45,22 @@ export const actions = {
   },
   authUser({ commit }, authData) {
     const key = "AIzaSyAr19u1AxSMyUCKuob998E27yCh-X9soJo";
-    return axios.post(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${key}`,
-      {
-        email: authData.email,
-        password: authData.password,
-        returnSecureToken: true
-      }
-    );
+    return axios
+      .post(
+        `https://identitytoolkit.googleapis.com/v1/accounts:verifyPassword?key=${key}`,
+        {
+          email: authData.email,
+          password: authData.password,
+          returnSecureToken: true
+        }
+      )
+      .then(res => {
+        commit("setToken", res.data.idToken);
+      })
+      .catch(e => console.log(e));
+  },
+  logout(commit) {
+    commit("destroyToken");
   },
   addPost({ commit }, post) {
     // console.log(post);
@@ -59,10 +74,10 @@ export const actions = {
       })
       .catch(e => console.log(e));
   },
-  editPost({ commit }, post) {
+  editPost({ commit, state }, post) {
     return axios
       .put(
-        `https://blog-nuxt-aae5b-default-rtdb.firebaseio.com/posts/${post.id}.json`,
+        `https://blog-nuxt-aae5b-default-rtdb.firebaseio.com/posts/${post.id}.json?auth=${state.token}`,
         post
       )
       .then(res => {
@@ -86,5 +101,8 @@ export const actions = {
 export const getters = {
   getPostsLoaded(state) {
     return state.postsLoaded;
+  },
+  checkAuthUser(state) {
+    return state.token != null;
   }
 };
